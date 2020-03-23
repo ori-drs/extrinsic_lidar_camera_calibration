@@ -51,7 +51,7 @@ skip_indices = [1, 2, 3, 7, 12]; %% skip non-standard
 % Note: A validation dataset is the same as training set, i.e. it has to
 % have calibration targets in the scene; However, a testing set does not
 % need targets in the scene. 
-validation_flag = 1; 
+validation_flag = 0; 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% path.load_dir: directory of saved files
@@ -105,7 +105,7 @@ opts.optimizeAllCorners = 0;
 opts.refineAllCorners = 0;
 opts.use_top_consistent_vertices = 0;
 opts.randperm_to_fine_vertices = 0;
-skip = 0; 
+skip = 2; 
 debug = 0;
 
 
@@ -166,7 +166,7 @@ show_lidar_target = 0;
 show_camera_target = 0;
 show_training_results = 0; % 1
 show_validation_results = 0; %1 
-show_testing_results = 0; %1
+show_testing_results = 1; %1
 show_baseline_results = 0;
 
 
@@ -330,7 +330,7 @@ for k = 1:opts.num_training
         end
     end
 end
-
+validation_flag=0
 if validation_flag
     for k = 1:opts.num_validation
         current_index = bag_validation_indices(k);
@@ -659,7 +659,9 @@ end
 
 % project testing results
 % load testing images and testing pc mat
+test_pc_mat_list
 testing_set_pc = loadTestingMatFiles(path.mat_file_path, test_pc_mat_list);
+bag_testing_list
 for i = 1: size(bag_testing_list, 2)
     loadBagImg(testing_fig_handles(i), path.bag_file_path, bag_testing_list(i), "not display", "Not clean"); 
     projectBackToImage(testing_fig_handles(i), SNR_P, testing_set_pc(i).mat_pc, 3, 'g.', "testing", show_testing_results, "Not-Clean");

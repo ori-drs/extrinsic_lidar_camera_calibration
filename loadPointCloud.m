@@ -35,7 +35,7 @@ function point_cloud = loadPointCloud(path, name)
     else
         file = path + name;
     end
-    
+    file
     if ~isfile(file)
         disp('Invalid path when loading dataset')
         fprintf("path: %s\n", file);
